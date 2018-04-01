@@ -11,10 +11,14 @@
 #define TRUE 1
 #endif
 
+#define OUTPUT_PATH "relatório.txt"
+
 FILE *fp;
 
 char *KEYWORD;
 char *ID;
+
+int error_count = 0;
 
 char *
 keyword_or_id(const char *text) {
@@ -82,7 +86,26 @@ keyword_or_id(const char *text) {
 "\{" {fprintf(fp, "%s ACH\n", yytext);}
 "\}" {fprintf(fp, "%s FCH\n", yytext);}
 
+" " {}
+"\n" {}
+. {fprintf(fp, "%s ERRO\n", yytext);error_count++;}
+
 %%
+
+char *
+read_file(const char *path, long *size) {
+    FILE *f = fopen(path, "rb");
+    fseek(f, 0, SEEK_END);
+    long fsize = ftell(f);
+    *size = fsize;
+    fseek(f, 0, SEEK_SET);
+
+    char *string = malloc(fsize);
+    fread(string, fsize, 1, f);
+    fclose(f);
+
+    return string;
+}
 
 int main(int argc, char *argv[]) {
     if (argc < 2) {
@@ -96,12 +119,19 @@ int main(int argc, char *argv[]) {
     strcpy(KEYWORD, "Palavra-chave");
 
     yyset_in(fopen(argv[1], "r"));
-    fp = fopen("relatório.txt", "w");
-    fprintf(fp, "0 erro(s) encontrado(s)\n");
+    fp = fopen(OUTPUT_PATH, "w");
     yylex();
+    fclose(yyin);
+    fclose(fp);
+
+    long size = 0;
+    char *content = read_file(OUTPUT_PATH, &size);
+    fp = fopen(OUTPUT_PATH, "w");
+    fprintf(fp, "%d erro(s) encontrado(s)\n", error_count);
+    fwrite(content, sizeof(char), size, fp);
     fflush(fp);
     fclose(fp);
-    fclose(yyin);
+
 
     free(ID);
     free(KEYWORD);
