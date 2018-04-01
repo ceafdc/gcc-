@@ -11,7 +11,7 @@
 #define TRUE 1
 #endif
 
-#define OUTPUT_PATH "relatório.txt"
+#define OUTPUT_PATH "relatorio.txt"
 
 FILE *fp;
 
