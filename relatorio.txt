@@ -1,4 +1,4 @@
-0 erro(s) encontrado(s)
+2 erro(s) encontrado(s)
 void Palavra-chave
 main ID
 ( AP
@@ -11,7 +11,10 @@ int Palavra-chave
 y ID
 ; PV
 int Palavra-chave
-resultado ID
+resu ID
+Â ERRO
+§ ERRO
+ltado ID
 ; PV
 x ID
 = ATRIB
