@@ -1,2 +1,10 @@
 Carlos Eduardo Ayoub Fialho  #7563703  turma 2
 Rafael Andreatta martins     #7564019  turma 2
+
+Para rodar
+
+$ lex lexical.lex  # gera o arquivo .c
+$ gcc lex.yy.c -o gcc- -ll  # compila o .c
+$ ./gcc- soma.c-  # roda o compilador (atualmente só faz analise lexica)
+
+a saída do compilador estará no arquivo relatorio.txt
